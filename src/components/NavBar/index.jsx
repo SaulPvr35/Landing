@@ -9,7 +9,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           {/* Logo de la página con fuente Roboto */}
           <a href="/" className="text-white text-3xl font-extrabold" style={{ fontFamily: 'Roboto' }}>
-            MiLogo
+            Logo
           </a>
           {/* Sección de enlaces de navegación */}
           <ul className="flex space-x-4 md:space-x-8">
