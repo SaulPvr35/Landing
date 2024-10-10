@@ -4,6 +4,8 @@ import Footer from './components/Footer'; // Importación del componente Footer
 import Catalogo from './components/CataMenu'; // Importación del componente Catalogo
 import { useEffect } from 'react'; // Importación de useEffect para manejar efectos secundarios
 import '@fortawesome/fontawesome-free/css/all.css'; // Nota: Usa "all.css" en lugar de "all.min.css"
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
+import Contacto from './components/Contacto/contacto';
 
 
 function App() {
@@ -22,18 +24,23 @@ function App() {
 
     //AQUI VA TODO EL CONTENIDO EN LA MAIN
   return (
-    <div className="flex flex-col min-h-screen bg-[#004ba2] text-white" style={{ fontFamily: 'Roboto' }}> 
-      {/* Aplicar la fuente Roboto a toda la aplicación mediante el estilo en línea */}
-
+    <Router>
+    <div className="flex flex-col min-h-screen bg-[#004ba2] text-white" style={{ fontFamily: 'Roboto' }}>
       <Navbar /> {/* Mostrando el componente Navbar */}
 
       <main className="flex-grow p-4">
-        {/* Aquí puedes agregar el contenido principal de tu aplicación */}
-        <Catalogo /> {/* Mostrando el componente Catalogo */}
+        <Routes>
+          {/* Ruta para la página de catálogo */}
+          <Route path="/" element={<Catalogo />} />
+          
+          {/* Ruta para la página de contacto */}
+          <Route path="/contacto" element={<Contacto />} />
+        </Routes>
       </main>
 
       <Footer /> {/* Mostrando el componente Footer */}
     </div>
+  </Router>
   );
 }
 
