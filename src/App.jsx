@@ -6,6 +6,8 @@ import { useEffect } from 'react'; // Importación de useEffect para manejar efe
 import '@fortawesome/fontawesome-free/css/all.css'; // Nota: Usa "all.css" en lugar de "all.min.css"
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
 import Contacto from './components/Contacto/contacto';
+import Busqueda from './components/Busqueda'; 
+
 
 
 function App() {
@@ -35,6 +37,10 @@ function App() {
           
           {/* Ruta para la página de contacto */}
           <Route path="/contacto" element={<Contacto />} />
+
+          {/* Ruta para la búsqueda */}
+         <Route path="/busqueda" element={<Busqueda/>} />
+
         </Routes>
       </main>
 
