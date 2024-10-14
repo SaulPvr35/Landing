@@ -1,5 +1,5 @@
-import React from 'react';
-
+import React, { useState } from 'react'; // Importación única de React y useState
+//  EL TITULO se usara para el filtro de busquedas 
 const peliculasIniciales = [
   { id: 1, titulo: 'Stars', imagen: 'https://link_a_imagen_1.jpg' },
   { id: 2, titulo: 'Stars', imagen: 'https://link_a_imagen_2.jpg' },
@@ -12,7 +12,8 @@ const peliculasIniciales = [
 
 const Busqueda = () => {
   const [busqueda, setBusqueda] = useState(''); // Estado para controlar el término de búsqueda
-  const [peliculas, setPeliculas] = useState(peliculasIniciales);
+  const peliculas = peliculasIniciales;
+  // const [peliculas, setPeliculas] = useState(peliculasIniciales);
 
   // Función para manejar el cambio en el input de búsqueda
   const manejarCambioBusqueda = (e) => {
@@ -28,13 +29,15 @@ const Busqueda = () => {
     <div className="min-h-screen bg-[#004ba2] p-8">
       {/* Input de búsqueda */}
       <div className="mb-6 text-center">
-        <input
-          type="text"
-          value={busqueda}
-          onChange={manejarCambioBusqueda}
-          placeholder="Buscar película..."
-          className="px-4 py-2 rounded-lg w-1/2"
-        />
+        <div className="relative">
+          <input
+            type="text"
+            value={busqueda}
+            onChange={manejarCambioBusqueda}
+            placeholder="Buscar película..."
+            className="px-4 py-2 rounded-lg w-1/2 bg-[#1c3a63] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4d8dee] transition"
+          />
+        </div>
       </div>
 
       {/* Mostrar el título de búsqueda */}
@@ -46,7 +49,10 @@ const Busqueda = () => {
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
         {peliculasFiltradas.length > 0 ? (
           peliculasFiltradas.map((pelicula) => (
-            <div key={pelicula.id} className="bg-[#1c3a63] rounded-lg shadow-lg p-4 text-center">
+            <div
+              key={pelicula.id}
+              className="bg-[#1c3a63] rounded-lg shadow-lg p-4 text-center transform transition-transform hover:scale-105"
+            >
               {/* Imagen de la película */}
               <img
                 src={pelicula.imagen}
@@ -66,4 +72,3 @@ const Busqueda = () => {
 };
 
 export default Busqueda;
-

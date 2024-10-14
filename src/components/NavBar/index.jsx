@@ -1,64 +1,73 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faInfoCircle, faWrench, faEnvelope } from '@fortawesome/free-solid-svg-icons'; // Importa los iconos que necesitas
+import { faHome, faWrench, faEnvelope, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <div className="bg-[#276cc8] shadow-lg">
-      <nav className="container mx-auto p-4">
-        <div className="flex justify-between items-center">
-          {/* Logo de la página con fuente Roboto */}
-          <a href="/" className="text-white text-3xl font-extrabold" style={{ fontFamily: 'Roboto' }}>
-            Logo
-          </a>
-          {/* Sección de enlaces de navegación */}
-          <ul className="flex space-x-4 md:space-x-8">
-            <li>
-              <a
-                href="#home"
-                className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center"
-                style={{ fontFamily: 'Roboto' }}
-              >
-                <FontAwesomeIcon icon={faHome} className="mr-2" /> {/* Icono de Home */}
-                Home
-              </a>
-            </li>
-            <li>
-              <a
-                href="#about"
-                className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center"
-                style={{ fontFamily: 'Roboto' }}
-              >
-                <FontAwesomeIcon icon={faInfoCircle} className="mr-2" /> {/* Icono de About */}
-                About
-              </a>
-            </li>
-            <li>
-              <a
-                href="#services"
-                className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center"
-                style={{ fontFamily: 'Roboto' }}
-              >
-                <FontAwesomeIcon icon={faWrench} className="mr-2" /> {/* Icono de Services */}
-                Services
-              </a>
-            </li>
-            <li className="mx-4">
-          <Link
-            to="/contacto" // Enlace a la página de contacto
-            className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center"
-            style={{ fontFamily: 'Roboto' }}
-          >
-            <FontAwesomeIcon icon={faEnvelope} className="mr-2" /> {/* Icono de Contact */}
-            Contact
-          </Link>
-        </li>
-          </ul>
+    <div className="relative">
+      <nav className="bg-[#004ba2] shadow-lg relative z-10"> {/* Navbar en la parte superior */}
+        <div className="container mx-auto p-4">
+          <div className="flex justify-between items-center">
+            {/* Logo de la página con fuente Roboto */}
+            <a href="/" className="text-white text-3xl font-extrabold" style={{ fontFamily: 'Roboto' }}>
+              Logo
+            </a>
+            {/* Sección de enlaces de navegación */}
+            <ul className="flex space-x-4 md:space-x-8">
+              <li>
+                <a
+                  href="/"
+                  className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center"
+                  style={{ fontFamily: 'Roboto' }}
+                >
+                  <FontAwesomeIcon icon={faHome} className="mr-2" />
+                  Home
+                </a>
+              </li>
+
+              <li>
+                <a
+                  href="#services"
+                  className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center"
+                  style={{ fontFamily: 'Roboto' }}
+                >
+                  <FontAwesomeIcon icon={faWrench} className="mr-2" />
+                  Services
+                </a>
+              </li>
+
+              <li className="mx-4">
+                <Link
+                  to="/contacto" // Enlace a la página de contacto
+                  className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center"
+                  style={{ fontFamily: 'Roboto' }}
+                >
+                  <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
+                  Contactanos
+                </Link>
+              </li>
+
+              {/* Nuevo botón de búsqueda */}
+              <li className="mx-4">
+                <Link
+                  to="/busqueda" // Enlace a la página de búsqueda
+                  className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center"
+                  style={{ fontFamily: 'Roboto' }}
+                >
+                  <FontAwesomeIcon icon={faSearch} className="mr-2" /> {/* Ícono de búsqueda */}
+                  Buscador
+                </Link>
+              </li>
+
+            </ul>
+          </div>
         </div>
       </nav>
+      {/* Componente Carrusel como fondo */}
+      {/* <Carrusel className="absolute inset-0 z-0" /> */}
     </div>
   );
 };
 
-export default Navbar;
+export default Navbar; // Exportación del componente

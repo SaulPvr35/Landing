@@ -6,9 +6,8 @@ import { useEffect } from 'react'; // Importación de useEffect para manejar efe
 import '@fortawesome/fontawesome-free/css/all.css'; // Nota: Usa "all.css" en lugar de "all.min.css"
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
 import Contacto from './components/Contacto/contacto';
-import Busqueda from './components/Busqueda'; 
-
-
+import Busqueda from './components/Busqueda/busqueda';
+import Barra from './components/BarraLateral'; // Asegúrate de que la ruta sea correcta
 
 function App() {
   // useEffect para cargar la fuente Roboto desde Google Fonts
@@ -24,30 +23,35 @@ function App() {
     };
   }, []); // Se ejecuta una vez al montar el componente
 
-    //AQUI VA TODO EL CONTENIDO EN LA MAIN
+  // AQUI VA TODO EL CONTENIDO EN LA MAIN
   return (
     <Router>
-    <div className="flex flex-col min-h-screen bg-[#004ba2] text-white" style={{ fontFamily: 'Roboto' }}>
-      <Navbar /> {/* Mostrando el componente Navbar */}
+      <div className="flex flex-col min-h-screen bg-[#004ba2] text-white" style={{ fontFamily: 'Roboto' }}>
+        <Navbar /> {/* Mostrando el componente Navbar */}
+        
+        {/* <Carrusel></Carrusel> */}
+        <div className="flex flex-col lg:flex-row flex-grow">
+          <main className="flex-grow p-4 overflow-auto">
+            <Routes>
+              {/* Ruta para la página de catálogo */}
+              <Route path="/" element={<Catalogo />} />
+              
+              {/* Ruta para la página de contacto */}
+              <Route path="/contacto" element={<Contacto />} />
 
-      <main className="flex-grow p-4">
-        <Routes>
-          {/* Ruta para la página de catálogo */}
-          <Route path="/" element={<Catalogo />} />
+              {/* Ruta para la búsqueda */}
+              <Route path="/busqueda" element={<Busqueda />} />
+            </Routes>
+          </main>
+
+
           
-          {/* Ruta para la página de contacto */}
-          <Route path="/contacto" element={<Contacto />} />
+        </div>
 
-          {/* Ruta para la búsqueda */}
-         <Route path="/busqueda" element={<Busqueda/>} />
-
-        </Routes>
-      </main>
-
-      <Footer /> {/* Mostrando el componente Footer */}
-    </div>
-  </Router>
+        <Footer /> {/* Mostrando el componente Footer */}
+      </div>
+    </Router>
   );
 }
 
-export default App;
+export default App; // Exportación del componente App
