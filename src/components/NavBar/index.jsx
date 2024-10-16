@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faWrench, faEnvelope, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faWrench, faEnvelope, faSearch, faBullseye } from '@fortawesome/free-solid-svg-icons'; // Añadir faBullseye para Misión y Visión
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
@@ -57,6 +57,18 @@ const Navbar = () => {
                 >
                   <FontAwesomeIcon icon={faSearch} className="mr-2" /> {/* Ícono de búsqueda */}
                   Buscador
+                </Link>
+              </li>
+
+              {/* Nueva opción de Misión y Visión */}
+              <li className="mx-4">
+                <Link
+                  to="/MisionVision" // Enlace a la página de Misión y Visión
+                  className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center"
+                  style={{ fontFamily: 'Roboto' }}
+                >
+                  <FontAwesomeIcon icon={faBullseye} className="mr-2" /> {/* Ícono de Misión y Visión */}
+                  Nosotros
                 </Link>
               </li>
 

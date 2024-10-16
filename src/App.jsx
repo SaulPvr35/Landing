@@ -8,6 +8,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Contacto from './components/Contacto/contacto';
 import Busqueda from './components/Busqueda/busqueda';
 import Barra from './components/BarraLateral'; // Asegúrate de que la ruta sea correcta
+import MisionVision from './components/Nosotros/MisionVision'; // Importación del componente Misión y Visión
+
 
 function App() {
   // useEffect para cargar la fuente Roboto desde Google Fonts
@@ -34,13 +36,17 @@ function App() {
           <main className="flex-grow p-4 overflow-auto">
             <Routes>
               {/* Ruta para la página de catálogo */}
-              <Route path="/" element={<Catalogo />} />
+              
+              <Route path="/" element=  {<Catalogo />} />
               
               {/* Ruta para la página de contacto */}
               <Route path="/contacto" element={<Contacto />} />
 
               {/* Ruta para la búsqueda */}
               <Route path="/busqueda" element={<Busqueda />} />
+
+              {/* Ruta para nostros */}
+              <Route path="/MisionVision" element={<MisionVision/>} />
             </Routes>
           </main>
 
