@@ -26,7 +26,7 @@ const Navbar = () => {
                 </a>
               </li>
 
-              <li>
+              {/* <li>
                 <a
                   href="#services"
                   className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center"
@@ -35,7 +35,7 @@ const Navbar = () => {
                   <FontAwesomeIcon icon={faWrench} className="mr-2" />
                   Services
                 </a>
-              </li>
+              </li> */}
 
               <li className="mx-4">
                 <Link
@@ -69,6 +69,17 @@ const Navbar = () => {
                 >
                   <FontAwesomeIcon icon={faBullseye} className="mr-2" /> {/* Ícono de Misión y Visión */}
                   Nosotros
+                </Link>
+              </li>
+              {/* Actualizar catalogo */}
+              <li className="mx-4">
+                <Link
+                  to="/Actualizar" // Enlace a la página de Misión y Visión
+                  className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center"
+                  style={{ fontFamily: 'Roboto' }}
+                >
+                  <FontAwesomeIcon icon={faBullseye} className="mr-2" /> {/* Ícono de Misión y Visión */}
+                  Actualizar catalogo
                 </Link>
               </li>
             </ul>
