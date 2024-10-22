@@ -30,12 +30,13 @@ const Busqueda = () => {
       {/* Input de búsqueda */}
       <div className="mb-6 text-center">
         <div className="relative">
+          <br /><br />
           <input
             type="text"
             value={busqueda}
             onChange={manejarCambioBusqueda}
             placeholder="Buscar película..."
-            className="px-4 py-2 rounded-lg w-1/2 bg-[#1c3a63] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4d8dee] transition"
+            className="px-4 py-2 rounded-lg w-1/2 bg-[#1c3a63] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ffffff] transition"
           />
         </div>
       </div>

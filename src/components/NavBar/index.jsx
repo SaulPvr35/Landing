@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const Navbar = () => {
   return (
     <div className="relative">
-      <nav className="bg-[#004ba2] shadow-lg relative z-10"> {/* Navbar en la parte superior */}
+      <nav className="bg-[#004ba2] shadow-lg fixed top-0 left-0 w-full z-10"> {/* Cambiado a 'fixed' */}
         <div className="container mx-auto p-4">
           <div className="flex justify-between items-center">
             {/* Logo de la página con fuente Roboto */}
@@ -71,13 +71,10 @@ const Navbar = () => {
                   Nosotros
                 </Link>
               </li>
-
             </ul>
           </div>
         </div>
       </nav>
-      {/* Componente Carrusel como fondo */}
-      {/* <Carrusel className="absolute inset-0 z-0" /> */}
     </div>
   );
 };

@@ -1,64 +1,108 @@
-import React, { useState, useEffect } from 'react'; // Importación de React y hooks necesarios
-import Buttom from './boton'; // Importación del componente de botón
-import Indicator from './indicador'; // Importación del componente indicador
-import Item from './item'; // Importación del componente de item
+import React, { useState, useEffect } from 'react';
+import Button from './boton';
+import Indicator from './indicador';
+import Item from './item';
 
 // Componente Carrusel
 const Carrusel = () => {
-    // Estado para almacenar el índice del item actual
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [isTransitioning, setIsTransitioning] = useState(false);
 
     // CONTENIDO QUE ESTARA EN EL CARRUSEL
     const items = [
         {
-            type: 'video', // Tipo de contenido
-            src: 'https://via.placeholder.com/170x250', // URL de la fuente del contenido
-            description: 'Descripción del Video', // Descripción del contenido
+            type: 'imagen',
+            src: 'https://cuevana.pro/resize/1720/storage/87161/h4Y3Wjp0XpZjcsoEUAQYlFmQi8L7GxWdTqbJNiUh.jpg',
+            description: 'Jocker xd',
         },
         {
-            type: 'video', // Tipo de contenido
-            src: '.mp4', // URL de la fuente del contenido (esto debería ser una ruta válida)
-            description: 'Descripción del Video', // Descripción del contenido
+            type: 'imagen',
+            src: 'https://cuevana.pro/resize/1720/storage/86088/IpvxQeSAc5lvdBhCloeai2Rf2GR8b7GyyB5xDfzT.jpg',
+            description: 'Jocker xd',
         },
     ];
 
-    // Función para avanzar al siguiente item
     const handleNext = () => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
+        if (!isTransitioning) {
+            setIsTransitioning(true);
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
+        }
     };
 
-    // Función para retroceder al item anterior
     const handlePrev = () => {
-        setCurrentIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
+        if (!isTransitioning) {
+            setIsTransitioning(true);
+            setCurrentIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
+        }
     };
 
-    // Efecto que se ejecuta al montar el componente, configurando un intervalo para avanzar automáticamente
     useEffect(() => {
-        const timer = setInterval(handleNext, 15000); // Cambia al siguiente item cada 15 segundos
-        return () => clearInterval(timer); // Limpieza del intervalo al desmontar el componente
+        const timer = setInterval(handleNext, 11000);
+        return () => clearInterval(timer);
     }, []);
 
-    // Renderizado del componente
+    useEffect(() => {
+        setTimeout(() => setIsTransitioning(false), 500); // Ajusta el tiempo para que coincida con la duración de la transición
+    }, [currentIndex]);
+
     return (
-        <div className="relative w-full h-[50vh] overflow-hidden">
+        <div className="relative w-full h-[50vh] overflow-hidden border border-[#135cb5] rounded-lg shadow-lg">
+            <div className="absolute inset-0 bg-black opacity-50 z-0"></div> {/* Fondo oscuro */}
             {/* Contenedor para centrar el item del carrusel */}
-            <div className="flex items-center justify-center w-full h-full">
-                <Item item={items[currentIndex]} /> {/* Muestra el item actual */}
+            <div
+                className={`flex items-center justify-center w-full h-full transition-transform duration-500 ease-in-out z-10 ${
+                    isTransitioning ? 'scale-105 opacity-0' : 'scale-100 opacity-100'
+                }`}
+            >
+                <Item item={items[currentIndex]} />
             </div>
-            <div className="absolute bottom-0 left-0 p-4 bg-opacity-75 w-full">
-                <p className="text-white">{items[currentIndex].description}</p> {/* Descripción del item actual */}
-                <button className="mt-2 bg-[#4d8dee] text-white px-4 py-2 rounded hover:bg-[#3a7dd8] transition duration-300">
-                    Más detalles {/* Botón para más detalles */}
+
+            {/* Información del item */}
+            <div className="absolute bottom-0 left-0 p-4 bg-black bg-opacity-60 w-full text-center transition-opacity duration-500 ease-in-out z-20">
+                <p className="text-white text-lg font-semibold mb-2">
+                    {items[currentIndex].description}
+                </p>
+                <button className="mt-2 bg-[#4d8dee] text-white px-4 py-2 rounded-full hover:bg-[#3a7dd8] transition-transform transform hover:scale-110 duration-300">
+                    Más detalles
                 </button>
             </div>
-            {/* Indicadores para mostrar el estado del carrusel */}
-            <div className="flex justify-center mt-2">
+
+            {/* Botones de navegación */}
+            <div className="absolute top-1/2 left-0 transform -translate-y-1/2 z-30">
+                <button
+                    onClick={handlePrev}
+                    className="text-white bg-[#3a7dd8] p-2 rounded-full hover:bg-[#4d8dee] transition-transform transform hover:scale-110"
+                >
+                    ←
+                </button>
+            </div>
+            <div className="absolute top-1/2 right-0 transform -translate-y-1/2 z-30">
+                <button
+                    onClick={handleNext}
+                    className="text-white bg-[#3a7dd8] p-2 rounded-full hover:bg-[#4d8dee] transition-transform transform hover:scale-110"
+                >
+                    →
+                </button>
+            </div>
+
+            {/* Indicadores */}
+            <div className="flex justify-center mt-4 z-30">
                 {items.map((_, index) => (
-                    <Indicator key={index} index={index} currentIndex={currentIndex} setCurrentIndex={setCurrentIndex} />
+                    <Indicator
+                        key={index}
+                        index={index}
+                        currentIndex={currentIndex}
+                        setCurrentIndex={setCurrentIndex}
+                        className={`cursor-pointer w-4 h-4 rounded-full mx-1 ${
+                            index === currentIndex
+                                ? 'bg-[#4d8dee] scale-125'
+                                : 'bg-gray-400 hover:bg-[#3a7dd8]'
+                        } transition-transform duration-300`}
+                    />
                 ))}
             </div>
         </div>
     );
 };
 
-export default Carrusel; // Exportación del componente
+export default Carrusel;

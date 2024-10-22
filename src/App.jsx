@@ -7,7 +7,6 @@ import '@fortawesome/fontawesome-free/css/all.css'; // Nota: Usa "all.css" en lu
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
 import Contacto from './components/Contacto/contacto';
 import Busqueda from './components/Busqueda/busqueda';
-import Barra from './components/BarraLateral'; // Asegúrate de que la ruta sea correcta
 import MisionVision from './components/Nosotros/MisionVision'; // Importación del componente Misión y Visión
 
 

@@ -65,9 +65,10 @@ const peliculas = [
 // Componente Catalogo que renderiza el catálogo de películas
 const Catalogo = () => {
     return (
-        <div className="bg-[#004ba2] min-h-screen p-4 flex flex-col">
+        <div className="bg-gradient-to-b from-[#004ba2] via-[#0a1c35] to-[#004ca2c4] min-h-screen p-4 flex flex-col">
             {/* Carrusel se coloca en la parte superior */}
             <Carrusel />
+            <br />
             <div className="flex-grow p-4 flex">
                 {/* Contenedor principal que ocupa todo el alto de la pantalla */}
                 <div className="flex-grow">
