@@ -16,7 +16,7 @@ const peliculas = [
         id: 2,
         titulo: 'Título de la Película 2',
         descripcion: 'Descripción corta de la película 2.',
-        imagen: 'https://image.tmdb.org/t/p/w600/c2wfIKUPcQY0tiyiOmY7ItHtNO9.jpg', // URL de la imagen de la película
+        imagen: 'https://image.tmdb.org/t/p/w300/c2wfIKUPcQY0tiyiOmY7ItHtNO9.jpg', // URL de la imagen de la película
         genero: 'Comedia',
         año: 2022,
     },
