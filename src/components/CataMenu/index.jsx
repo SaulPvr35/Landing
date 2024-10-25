@@ -69,6 +69,8 @@ const Catalogo = () => {
             {/* Carrusel se coloca en la parte superior */}
             <Carrusel />
             <br />
+                       {/* Barra de recomendaciones debajo del carrusel y antes del catálogo de películas */}
+            <Barra />
             <div className="flex-grow p-4 flex">
                 {/* Contenedor principal que ocupa todo el alto de la pantalla */}
                 <div className="flex-grow">
@@ -103,9 +105,9 @@ const Catalogo = () => {
                     </div>
                 </div>
                 {/* Barra lateral a la derecha que podría contener navegación u otra información */}
-                <div className="w-1/4 lg:w-1/5">
+                {/* <div className="w-1/4 lg:w-1/5">
                     <Barra />
-                </div>
+                </div> */}
             </div>
         </div>
     );

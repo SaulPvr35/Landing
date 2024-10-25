@@ -9,6 +9,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Contacto from './components/Contacto/contacto';
 import Busqueda from './components/Busqueda/busqueda';
 import MisionVision from './components/Nosotros/MisionVision'; // Importación del componente Misión y Visión
+// import Barra from '../BarraLateral';
+
 
 function App() {
   useEffect(() => {
@@ -31,6 +33,7 @@ function App() {
         <div className="flex flex-col lg:flex-row flex-grow">
           <main className="flex-grow p-4 overflow-auto">
             <Routes>
+              
               {/* Ruta para la página de catálogo */}
               <Route path="/" element={<Catalogo />} />
               
