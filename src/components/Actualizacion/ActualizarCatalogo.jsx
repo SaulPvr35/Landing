@@ -1,22 +1,53 @@
 import React, { useState } from 'react';
 
+// Componente principal para actualizar el catálogo de películas
 const ActualizarCatalogo = () => {
+  // Estado para controlar la visibilidad del modal de edición
   const [modalVisible, setModalVisible] = useState(false);
+  // Estado para controlar la visibilidad del modal de eliminación
+  const [modalEliminarVisible, setModalEliminarVisible] = useState(false);
+  // Estado para almacenar la película seleccionada para modificar o eliminar
   const [peliculaSeleccionada, setPeliculaSeleccionada] = useState(null);
   
+  // Lista de películas a mostrar en el catálogo
   const peliculas = [
     { id: 1, titulo: 'Peli 1', descripcion: 'Descripción de Peli 1', imagen: 'https://image.tmdb.org/t/p/w300/c2wfIKUPcQY0tiyiOmY7ItHtNO9.jpg', genero: 'Acción', año: 2021 },
     { id: 2, titulo: 'Peli 2', descripcion: 'Descripción de Peli 2', imagen: 'https://cuevana.pro/resize/200/storage/87518/3JXUycj4WU32Sfsaccfo1CdJ0skUKLFrhTzBodCx.jpg', genero: 'Drama', año: 2020 },
-    // Agrega más películas según sea necesario
+    { id: 3, titulo: 'Peli 3', descripcion: 'Descripción de Peli 3', imagen: 'https://cuevana.pro/resize/200/storage/87996/k1dPc7WcPRfPv31g0JjkNwHom7MwXIwSTJKLnfgf.jpg', genero: 'Comedia', año: 2019 },
+    { id: 4, titulo: 'Peli 4', descripcion: 'Descripción de Peli 4', imagen: 'https://cuevana.pro/resize/200/storage/87996/k1dPc7WcPRfPv31g0JjkNwHom7MwXIwSTJKLnfgf.jpg', genero: 'Terror', año: 2018 },
+    { id: 5, titulo: 'Peli 5', descripcion: 'Descripción de Peli 5', imagen: 'https://cuevana.pro/resize/200/storage/87996/k1dPc7WcPRfPv31g0JjkNwHom7MwXIwSTJKLnfgf.jpg', genero: 'Aventura', año: 2021 },
+    { id: 6, titulo: 'Peli 6', descripcion: 'Descripción de Peli 6', imagen: 'https://cuevana.pro/resize/200/storage/87162/26g0sdV8kOiBSyinZ9a1Xb8Sdia6LZEXggcdTw7W.jpg', genero: 'Ciencia Ficción', año: 2020 },
   ];
 
+  // Función para manejar el clic en el botón "Modificar"
   const handleModificarClick = (pelicula) => {
-    setPeliculaSeleccionada(pelicula);
-    setModalVisible(true);
+    setPeliculaSeleccionada(pelicula); // Establecer la película seleccionada
+    setModalVisible(true); // Mostrar el modal de edición
   };
 
+  // Función para manejar el clic en el botón "Eliminar"
+  const handleEliminarClick = (pelicula) => {
+    setPeliculaSeleccionada(pelicula); // Establecer la película seleccionada
+    setModalEliminarVisible(true); // Mostrar el modal de eliminación
+  };
+
+  // Función para manejar el clic en "Cancelar" del modal de edición
   const handleCancelarClick = () => {
-    setModalVisible(false);
+    setModalVisible(false); // Ocultar el modal de edición
+    setPeliculaSeleccionada(null); // Limpiar la película seleccionada
+  };
+
+  // Función para manejar el clic en "Cancelar" del modal de eliminación
+  const handleCancelarEliminar = () => {
+    setModalEliminarVisible(false); // Ocultar el modal de eliminación
+    setPeliculaSeleccionada(null); // Limpiar la película seleccionada
+  };
+
+  // Función para manejar la confirmación de eliminación
+  const handleConfirmarEliminar = () => {
+    // Lógica para eliminar la película seleccionada
+    console.log(`Eliminando película: ${peliculaSeleccionada?.titulo}`);
+    setModalEliminarVisible(false); // Ocultar el modal de eliminación
     setPeliculaSeleccionada(null); // Limpiar la película seleccionada
   };
 
@@ -38,66 +69,72 @@ const ActualizarCatalogo = () => {
               >
                 Modificar
               </button>
-              <button className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded">Eliminar</button>
+              <button 
+                onClick={() => handleEliminarClick(pelicula)} 
+                className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded"
+              >
+                Eliminar
+              </button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Modal visual para editar */}
+      {/* Modal para editar */}
       {modalVisible && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-11/12 md:w-1/2 lg:w-1/3 shadow-lg">
-            <h2 className="text-2xl font-bold text-center mb-4">Editar Película</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+          <div className="bg-[#003a70] rounded-lg p-6 w-11/12 md:w-1/2 lg:w-1/3 shadow-lg">
+            <h2 className="text-2xl font-bold text-white text-center mb-4">Editar Película</h2>
             <form className="space-y-4">
               <div>
-                <label className="block text-gray-700 font-semibold">Título</label>
+                <label className="block text-gray-200 font-semibold">Título</label>
                 <input 
                   type="text" 
-                  className="w-full p-2 border rounded" 
+                  className="w-full p-2 border rounded bg-[#004ba2] text-white" 
                   placeholder="Ingrese el título de la película" 
+                  /* Hace que el modal sepa que película quiero modificar dependiendo su título  */
                   defaultValue={peliculaSeleccionada?.titulo} 
-                  disabled 
+                  disabled // Campo de texto deshabilitado para edición
                 />
               </div>
               <div>
-                <label className="block text-gray-700 font-semibold">Descripción</label>
+                <label className="block text-gray-200 font-semibold">Descripción</label>
                 <textarea 
-                  className="w-full p-2 border rounded" 
+                  className="w-full p-2 border rounded bg-[#004ba2] text-white" 
                   placeholder="Ingrese una descripción" 
                   rows="4" 
                   defaultValue={peliculaSeleccionada?.descripcion} 
-                  disabled 
+                  disabled // Campo de texto deshabilitado para edición
                 />
               </div>
               <div>
-                <label className="block text-gray-700 font-semibold">Imagen (URL)</label>
+                <label className="block text-gray-200 font-semibold">Imagen (URL)</label>
                 <input 
                   type="text" 
-                  className="w-full p-2 border rounded" 
+                  className="w-full p-2 border rounded bg-[#004ba2] text-white" 
                   placeholder="URL de la imagen" 
                   defaultValue={peliculaSeleccionada?.imagen} 
-                  disabled 
+                  disabled // Campo de texto deshabilitado para edición
                 />
               </div>
               <div>
-                <label className="block text-gray-700 font-semibold">Género</label>
+                <label className="block text-gray-200 font-semibold">Género</label>
                 <input 
                   type="text" 
-                  className="w-full p-2 border rounded" 
+                  className="w-full p-2 border rounded bg-[#004ba2] text-white" 
                   placeholder="Ingrese el género" 
                   defaultValue={peliculaSeleccionada?.genero} 
-                  disabled 
+                  disabled // Campo de texto deshabilitado para edición
                 />
               </div>
               <div>
-                <label className="block text-gray-700 font-semibold">Año</label>
+                <label className="block text-gray-200 font-semibold">Año</label>
                 <input 
                   type="text" 
-                  className="w-full p-2 border rounded" 
+                  className="w-full p-2 border rounded bg-[#004ba2] text-white" 
                   placeholder="Ingrese el año" 
                   defaultValue={peliculaSeleccionada?.año} 
-                  disabled 
+                  disabled // Campo de texto deshabilitado para edición
                 />
               </div>
               <div className="flex justify-end space-x-2">
@@ -116,6 +153,32 @@ const ActualizarCatalogo = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal para eliminar */}
+      {modalEliminarVisible && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+          <div className="bg-[#003a70] rounded-lg p-6 w-11/12 md:w-1/2 lg:w-1/3 shadow-lg">
+            <h2 className="text-2xl font-bold text-white text-center mb-4">Eliminar Película</h2>
+            <p className="text-gray-200 text-center">¿Estás seguro de que deseas eliminar "{peliculaSeleccionada?.titulo}"?</p>
+            <div className="flex justify-end space-x-2 mt-4">
+              <button 
+                type="button" 
+                onClick={handleCancelarEliminar} 
+                className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500"
+              >
+                Cancelar
+              </button>
+              <button 
+                type="button" 
+                onClick={handleConfirmarEliminar} 
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+              >
+                Eliminar
+              </button>
+            </div>
           </div>
         </div>
       )}
