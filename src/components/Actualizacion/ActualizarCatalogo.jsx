@@ -1,65 +1,126 @@
-import React, { useState, useEffect } from 'react'; // Importa React y los hooks useState y useEffect
-import { useNavigate, useParams } from 'react-router-dom'; // Importa useNavigate y useParams para manejar la navegación y obtener parámetros de la URL
+import React, { useState } from 'react';
 
-const ActualizarCatalogo = ({ peliculas, setPeliculas }) => {
-  const { id } = useParams(); // Obtiene el ID de la película desde los parámetros de la URL
-  const navigate = useNavigate(); // Crea una función para navegar a otras rutas
+const ActualizarCatalogo = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [peliculaSeleccionada, setPeliculaSeleccionada] = useState(null);
   
-  // Estado para almacenar la información de la película
-  const [titulo, setTitulo] = useState(''); // Estado para el título de la película
-  const [descripcion, setDescripcion] = useState(''); // Estado para la descripción de la película
-  const [imagen, setImagen] = useState(''); // Estado para la URL de la imagen de la película
-  const [genero, setGenero] = useState(''); // Estado para el género de la película
-  const [año, setAño] = useState(''); // Estado para el año de la película
-  
-  // useEffect para cargar los datos de la película si se está editando
-  useEffect(() => {
-    if (id) { // Verifica si hay un ID presente
-      const pelicula = peliculas.find((p) => p.id === parseInt(id)); // Busca la película por ID en el array de películas
-      if (pelicula) { // Si se encuentra la película
-        // Actualiza los estados con los datos de la película encontrada
-        setTitulo(pelicula.titulo);
-        setDescripcion(pelicula.descripcion);
-        setImagen(pelicula.imagen);
-        setGenero(pelicula.genero);
-        setAño(pelicula.año);
-      }
-    }
-  }, [id, peliculas]); // Dependencias: se ejecuta cuando cambia id o peliculas
+  const peliculas = [
+    { id: 1, titulo: 'Peli 1', descripcion: 'Descripción de Peli 1', imagen: 'https://image.tmdb.org/t/p/w300/c2wfIKUPcQY0tiyiOmY7ItHtNO9.jpg', genero: 'Acción', año: 2021 },
+    { id: 2, titulo: 'Peli 2', descripcion: 'Descripción de Peli 2', imagen: 'https://cuevana.pro/resize/200/storage/87518/3JXUycj4WU32Sfsaccfo1CdJ0skUKLFrhTzBodCx.jpg', genero: 'Drama', año: 2020 },
+    // Agrega más películas según sea necesario
+  ];
 
-  // Maneja el envío del formulario
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Previene el comportamiento por defecto del formulario
+  const handleModificarClick = (pelicula) => {
+    setPeliculaSeleccionada(pelicula);
+    setModalVisible(true);
+  };
 
-    // Crea un objeto nuevaPelicula con los datos del formulario
-    const nuevaPelicula = {
-      id: id ? parseInt(id) : peliculas.length + 1, // Asigna el ID de la película existente o genera uno nuevo
-      titulo,
-      descripcion,
-      imagen,
-      genero,
-      año: parseInt(año), // Convierte el año a número
-    };
-
-    // Actualiza el array de películas: si hay ID, se edita, si no, se agrega
-    const updatedPeliculas = id 
-      ? peliculas.map((p) => (p.id === nuevaPelicula.id ? nuevaPelicula : p)) // Reemplaza la película editada
-      : [...peliculas, nuevaPelicula]; // Agrega la nueva película al array
-
-    setPeliculas(updatedPeliculas); // Actualiza el estado con la lista de películas actualizada
-    localStorage.setItem('peliculas', JSON.stringify(updatedPeliculas)); // Guarda la lista actualizada en localStorage
-    navigate('/catalogo'); // Redirige al usuario a la página del catálogo
+  const handleCancelarClick = () => {
+    setModalVisible(false);
+    setPeliculaSeleccionada(null); // Limpiar la película seleccionada
   };
 
   return (
     <div className="bg-gradient-to-b from-[#004ba2] via-[#0a1c35] to-[#004ca2c4] min-h-screen p-4 flex flex-col">
-      <h1 className="text-white text-3xl mb-6 text-center">Actualizar Catálogo de Películas</h1>
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-[#002f6c] p-6 rounded-md shadow-md">
-        {/* Aquí van los campos del formulario, como el título, descripción, imagen, género y año */}
-        {/* ... los campos del formulario permanecen iguales ... */}
-      </form>
+      <h1 className="text-white text-3xl mb-6 text-center">Catálogo de Películas</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {peliculas.map((pelicula) => (
+          <div key={pelicula.id} className="bg-[#002f6c] p-4 rounded-md shadow-md text-white">
+            <img src={pelicula.imagen} alt={pelicula.titulo} className="w-full h-48 object-cover rounded mb-4" />
+            <h2 className="text-xl font-bold">{pelicula.titulo}</h2>
+            <p className="text-sm mt-2">{pelicula.descripcion}</p>
+            <p className="text-sm">Género: {pelicula.genero}</p>
+            <p className="text-sm">Año: {pelicula.año}</p>
+            <div className="flex mt-4 space-x-4">
+              <button 
+                onClick={() => handleModificarClick(pelicula)} 
+                className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded"
+              >
+                Modificar
+              </button>
+              <button className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded">Eliminar</button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Modal visual para editar */}
+      {modalVisible && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-11/12 md:w-1/2 lg:w-1/3 shadow-lg">
+            <h2 className="text-2xl font-bold text-center mb-4">Editar Película</h2>
+            <form className="space-y-4">
+              <div>
+                <label className="block text-gray-700 font-semibold">Título</label>
+                <input 
+                  type="text" 
+                  className="w-full p-2 border rounded" 
+                  placeholder="Ingrese el título de la película" 
+                  defaultValue={peliculaSeleccionada?.titulo} 
+                  disabled 
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-semibold">Descripción</label>
+                <textarea 
+                  className="w-full p-2 border rounded" 
+                  placeholder="Ingrese una descripción" 
+                  rows="4" 
+                  defaultValue={peliculaSeleccionada?.descripcion} 
+                  disabled 
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-semibold">Imagen (URL)</label>
+                <input 
+                  type="text" 
+                  className="w-full p-2 border rounded" 
+                  placeholder="URL de la imagen" 
+                  defaultValue={peliculaSeleccionada?.imagen} 
+                  disabled 
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-semibold">Género</label>
+                <input 
+                  type="text" 
+                  className="w-full p-2 border rounded" 
+                  placeholder="Ingrese el género" 
+                  defaultValue={peliculaSeleccionada?.genero} 
+                  disabled 
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-semibold">Año</label>
+                <input 
+                  type="text" 
+                  className="w-full p-2 border rounded" 
+                  placeholder="Ingrese el año" 
+                  defaultValue={peliculaSeleccionada?.año} 
+                  disabled 
+                />
+              </div>
+              <div className="flex justify-end space-x-2">
+                <button 
+                  type="button" 
+                  onClick={handleCancelarClick} 
+                  className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500"
+                >
+                  Cancelar
+                </button>
+                <button 
+                  type="button" 
+                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default ActualizarCatalogo; // Exporta el componente ActualizarCatalogo
+export default ActualizarCatalogo;
