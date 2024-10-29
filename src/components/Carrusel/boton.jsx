@@ -1,12 +1,11 @@
 import React from 'react';
 
-// Componente de Botón
 const Button = ({ onClick, direction }) => (
     <button
         onClick={onClick}
-        className="absolute p-2 text-white bg-[#135cb5] rounded-full focus:outline-none"
+        className="p-3 text-white bg-[#135cb5] rounded-full hover:bg-[#4d8dee] transition-transform transform hover:scale-110"
     >
-        {direction === 'prev' ? '<' : '>'}
+        {direction === 'prev' ? '←' : '→'}
     </button>
 );
 

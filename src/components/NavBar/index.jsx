@@ -1,86 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faWrench, faEnvelope, faSearch, faBullseye } from '@fortawesome/free-solid-svg-icons'; // Añadir faBullseye para Misión y Visión
+import { faHome, faWrench, faEnvelope, faSearch, faBullseye, faUserCircle } from '@fortawesome/free-solid-svg-icons'; 
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
     <div className="relative">
-      <nav className="bg-[#004ba2] shadow-lg fixed top-0 left-0 w-full z-10"> {/* Cambiado a 'fixed' */}
+      <nav className="bg-[#004ba2] shadow-lg fixed top-0 left-0 w-full z-10">
         <div className="container mx-auto p-4">
           <div className="flex justify-between items-center">
-            {/* Logo de la página con fuente Roboto */}
+          <div className="flex justify-between items-center">
+              {/* Logo de la página con fuente Roboto */}
+               <img className='logo' src="https://static.vecteezy.com/system/resources/thumbnails/015/082/037/small_2x/movie-clapper-board-png.png" alt="" />
             <a href="/" className="text-white text-3xl font-extrabold" style={{ fontFamily: 'Roboto' }}>
-              Logo
+               Cinemanía-Plus
             </a>
+            </div>
+            
             {/* Sección de enlaces de navegación */}
-            <ul className="flex space-x-4 md:space-x-8">
+            <ul className="flex space-x-4 md:space-x-8 items-center">
               <li>
-                <a
-                  href="/"
-                  className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center"
-                  style={{ fontFamily: 'Roboto' }}
-                >
-                  <FontAwesomeIcon icon={faHome} className="mr-2" />
-                  Home
-                </a>
-              </li>
-
-              {/* <li>
-                <a
-                  href="#services"
-                  className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center"
-                  style={{ fontFamily: 'Roboto' }}
-                >
-                  <FontAwesomeIcon icon={faWrench} className="mr-2" />
-                  Services
-                </a>
-              </li> */}
-
-              <li className="mx-4">
-                <Link
-                  to="/contacto" // Enlace a la página de contacto
-                  className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center"
-                  style={{ fontFamily: 'Roboto' }}
-                >
-                  <FontAwesomeIcon icon={faEnvelope} className="mr-2" />
-                  Contactanos
-                </Link>
-              </li>
-
-              {/* Nuevo botón de búsqueda */}
-              <li className="mx-4">
-                <Link
-                  to="/busqueda" // Enlace a la página de búsqueda
-                  className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center"
-                  style={{ fontFamily: 'Roboto' }}
-                >
-                  <FontAwesomeIcon icon={faSearch} className="mr-2" /> {/* Ícono de búsqueda */}
+                <Link to="/busqueda" className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center" style={{ fontFamily: 'Roboto' }}>
+                  <FontAwesomeIcon icon={faSearch} className="mr-2" />
                   Buscador
                 </Link>
               </li>
-
-              {/* Nueva opción de Misión y Visión */}
-              <li className="mx-4">
-                <Link
-                  to="/MisionVision" // Enlace a la página de Misión y Visión
-                  className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center"
-                  style={{ fontFamily: 'Roboto' }}
-                >
-                  <FontAwesomeIcon icon={faBullseye} className="mr-2" /> {/* Ícono de Misión y Visión */}
+              <li>
+                <Link to="/" className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center" style={{ fontFamily: 'Roboto' }}>
+                  <FontAwesomeIcon icon={faHome} className="mr-2" />
+                  Home
+                </Link>
+              </li>
+             
+              <li>
+                <Link to="/MisionVision" className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center" style={{ fontFamily: 'Roboto' }}>
+                  <FontAwesomeIcon icon={faBullseye} className="mr-2" />
                   Nosotros
                 </Link>
               </li>
-              {/* Actualizar catalogo */}
-              <li className="mx-4">
-                <Link
-                  to="/Actualizar" // Enlace a la página de Misión y Visión
-                  className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center"
-                  style={{ fontFamily: 'Roboto' }}
-                >
-                  <FontAwesomeIcon icon={faBullseye} className="mr-2" /> {/* Ícono de Misión y Visión */}
-                  Actualizar catalogo
-                </Link>
+
+              {/* Menú de usuario desplegable */}
+              <li className="relative">
+                <button onClick={toggleMenu} className="text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center focus:outline-none">
+                  <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
+                  Usuario
+                </button>
+                {menuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-[#002f6c] text-white rounded-md shadow-lg z-20">
+                   
+                    <Link to="/Actualizar" className="block px-4 py-2 text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center">Actualizar Catálogo</Link>
+                    <Link to="/Gestionar" className="block px-4 py-2 text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center">Gestionar Empleados</Link>
+                    <Link to="/contacto" className="block px-4 py-2 text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center">Soporte</Link>
+                    <Link to="/" className="block px-4 py-2 text-gray-400 hover:text-white transition duration-300 ease-in-out flex items-center">cerrar sesion</Link>
+                   
+                  </div>
+                )}
               </li>
             </ul>
           </div>
@@ -90,4 +70,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar; // Exportación del componente
+export default Navbar;

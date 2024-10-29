@@ -3,7 +3,7 @@ import React from 'react';
 // Componente Barra
 const Barra = () => {
     return (
-        <div className="bg-gradient-to-r from-[#126ff0] to-[#0d3874] p-4 w-full flex flex-col items-center rounded-lg shadow-lg">
+        <div className=" from-[#126ff0] to-[#0d3874] p-4 w-full flex flex-col items-center rounded-lg shadow-lg">
             <h2 className="text-white text-2xl mb-6 font-bold animate-bounce">Recomendaciones</h2>
             <ul className="flex justify-between w-full max-w-screen-xl space-x-4 overflow-x-auto">
                 <li className="flex-grow flex justify-center">

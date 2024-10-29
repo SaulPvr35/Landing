@@ -3,22 +3,20 @@ import Button from './boton';
 import Indicator from './indicador';
 import Item from './item';
 
-// Componente Carrusel
 const Carrusel = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(false);
 
-    // CONTENIDO QUE ESTARA EN EL CARRUSEL
     const items = [
         {
             type: 'imagen',
             src: 'https://cuevana.pro/resize/1720/storage/87161/h4Y3Wjp0XpZjcsoEUAQYlFmQi8L7GxWdTqbJNiUh.jpg',
-            description: 'Jocker xd',
+            description: 'El jocker',
         },
         {
             type: 'imagen',
-            src: 'https://cuevana.pro/resize/1720/storage/86088/IpvxQeSAc5lvdBhCloeai2Rf2GR8b7GyyB5xDfzT.jpg',
-            description: 'Jocker xd',
+            src: 'https://ca-times.brightspotcdn.com/dims4/default/21c0876/2147483647/strip/false/crop/2927x1951+0+0/resize/1486x990!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fed%2Fdd%2F41d9907efe5255e71b245271fef4%2F9a46612515db4d95aa4efb107ec324e7',
+            description: 'La sustancia',
         },
     ];
 
@@ -37,55 +35,36 @@ const Carrusel = () => {
     };
 
     useEffect(() => {
-        const timer = setInterval(handleNext, 11000);
+        const timer = setInterval(handleNext, 5000);
         return () => clearInterval(timer);
     }, []);
 
     useEffect(() => {
-        setTimeout(() => setIsTransitioning(false), 500); // Ajusta el tiempo para que coincida con la duración de la transición
+        setTimeout(() => setIsTransitioning(false), 500);
     }, [currentIndex]);
 
     return (
-        <div className="relative w-full h-[50vh] overflow-hidden border border-[#135cb5] rounded-lg shadow-lg">
-            <div className="absolute inset-0 bg-black opacity-50 z-0"></div> {/* Fondo oscuro */}
-            {/* Contenedor para centrar el item del carrusel */}
-            <div
-                className={`flex items-center justify-center w-full h-full transition-transform duration-500 ease-in-out z-10 ${
-                    isTransitioning ? 'scale-105 opacity-0' : 'scale-100 opacity-100'
-                }`}
-            >
+        <div className="top relative w-full h-[70vh] md:h-[80vh] lg:h-[90vh] overflow-hidden">
+            <div className="absolute inset-0 bg-black opacity-50 z-0"></div>
+            
+            <div className={`flex items-center justify-center w-full h-full transition-transform duration-500 ease-in-out z-10 ${isTransitioning ? 'scale-105 opacity-0' : 'scale-100 opacity-100'}`}>
                 <Item item={items[currentIndex]} />
             </div>
 
-            {/* Información del item */}
-            <div className="absolute bottom-0 left-0 p-4 bg-black bg-opacity-60 w-full text-center transition-opacity duration-500 ease-in-out z-20">
-                <p className="text-white text-lg font-semibold mb-2">
-                    {items[currentIndex].description}
-                </p>
+            <div className="absolute bottom-0 left-0 p-4 bg-black bg-opacity-60 w-full text-center z-20">
+                <p className="text-white text-2xl font-semibold mb-2">{items[currentIndex].description}</p>
                 <button className="mt-2 bg-[#4d8dee] text-white px-4 py-2 rounded-full hover:bg-[#3a7dd8] transition-transform transform hover:scale-110 duration-300">
-                    Más detalles
+                    Ver
                 </button>
             </div>
 
-            {/* Botones de navegación */}
-            <div className="absolute top-1/2 left-0 transform -translate-y-1/2 z-30">
-                <button
-                    onClick={handlePrev}
-                    className="text-white bg-[#3a7dd8] p-2 rounded-full hover:bg-[#4d8dee] transition-transform transform hover:scale-110"
-                >
-                    ←
-                </button>
+            <div className="absolute top-1/2 left-4 transform -translate-y-1/2 z-30">
+                <Button onClick={handlePrev} direction="prev" />
             </div>
-            <div className="absolute top-1/2 right-0 transform -translate-y-1/2 z-30">
-                <button
-                    onClick={handleNext}
-                    className="text-white bg-[#3a7dd8] p-2 rounded-full hover:bg-[#4d8dee] transition-transform transform hover:scale-110"
-                >
-                    →
-                </button>
+            <div className="absolute top-1/2 right-4 transform -translate-y-1/2 z-30">
+                <Button onClick={handleNext} direction="next" />
             </div>
 
-            {/* Indicadores */}
             <div className="flex justify-center mt-4 z-30">
                 {items.map((_, index) => (
                     <Indicator
@@ -93,11 +72,6 @@ const Carrusel = () => {
                         index={index}
                         currentIndex={currentIndex}
                         setCurrentIndex={setCurrentIndex}
-                        className={`cursor-pointer w-4 h-4 rounded-full mx-1 ${
-                            index === currentIndex
-                                ? 'bg-[#4d8dee] scale-125'
-                                : 'bg-gray-400 hover:bg-[#3a7dd8]'
-                        } transition-transform duration-300`}
                     />
                 ))}
             </div>
@@ -106,3 +80,5 @@ const Carrusel = () => {
 };
 
 export default Carrusel;
+
+

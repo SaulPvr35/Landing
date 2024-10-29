@@ -26,7 +26,7 @@ const Busqueda = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#004ba2] p-8">
+    <div className="min-h-screen top  p-8">
       {/* Input de búsqueda */}
       <div className="mb-6 text-center">
         <div className="relative">

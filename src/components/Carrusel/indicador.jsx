@@ -1,10 +1,11 @@
 import React from 'react';
 
-// Componente de Indicador
 const Indicator = ({ index, currentIndex, setCurrentIndex }) => (
     <div
-        className={`w-3 h-3 rounded-full mx-1 cursor-pointer ${currentIndex === index ? 'bg-[#4d8dee]' : 'bg-[#fff] opacity-50'}`}
         onClick={() => setCurrentIndex(index)}
+        className={`w-4 h-4 rounded-full mx-1 cursor-pointer transition-transform duration-300 ${
+            currentIndex === index ? 'bg-[#4d8dee] scale-125' : 'bg-gray-400 hover:bg-[#3a7dd8]'
+        }`}
     />
 );
 

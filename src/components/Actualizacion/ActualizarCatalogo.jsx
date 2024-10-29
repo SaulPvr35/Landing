@@ -8,6 +8,7 @@ const ActualizarCatalogo = () => {
   const [modalEliminarVisible, setModalEliminarVisible] = useState(false);
   // Estado para almacenar la película seleccionada para modificar o eliminar
   const [peliculaSeleccionada, setPeliculaSeleccionada] = useState(null);
+  const [modalAgregarVisible, setModalAgregarVisible] = useState(false);
   
   // Lista de películas a mostrar en el catálogo
   const peliculas = [
@@ -52,8 +53,9 @@ const ActualizarCatalogo = () => {
   };
 
   return (
-    <div className="bg-gradient-to-b from-[#004ba2] via-[#0a1c35] to-[#004ca2c4] min-h-screen p-4 flex flex-col">
-      <h1 className="text-white text-3xl mb-6 text-center">Catálogo de Películas</h1>
+    <div className="topcatalogo via-[#0a1c35] to-[#004ca2c4] min-h-screen p-4 flex flex-col">
+      <h1 className="text-white font-bold text-3xl mb-9 text-center">Catálogo de Películas</h1>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {peliculas.map((pelicula) => (
           <div key={pelicula.id} className="bg-[#002f6c] p-4 rounded-md shadow-md text-white">
