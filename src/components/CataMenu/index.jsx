@@ -107,7 +107,7 @@ const peliculas = [
 
 const Catalogo = () => {
     return (
-        <div className="min-h-screen  p-4 flex flex-col">
+        <div className="min-h-screen text-white p-4 flex flex-col">
             {/* Carrusel en la parte superior */}
             <Carrusel />
             <br />
@@ -116,30 +116,30 @@ const Catalogo = () => {
             <Barra />
             <br />
 
-            <h1 className="text-white h3 mb-9 text-center">Películas</h1>
+            <h1 className="text-white text-4xl font-bold text-center mb-6">Películas</h1>
 
             {/* Contenedor principal de secciones horizontales de películas */}
             <div className="space-y-8">
                 {/* Renderizado de varias secciones (como Netflix) */}
                 {['Acción', 'Comedia', 'Drama'].map((categoria) => (
                     <div key={categoria} className="space-y-4">
-                        <h2 className="text-white text-2xl mb-4">{categoria}</h2>
+                        <h2 className="text-white text-2xl mb-4 font-semibold">{categoria}</h2>
 
                         {/* Contenedor desplazable horizontalmente */}
-                        <div className="flex space-x-4 overflow-x-auto scrollbar-hide p-2">
+                        <div className="flex space-x-6 overflow-x-auto scrollbar-hide p-2">
                             {peliculas.map((pelicula) => (
                                 <div
                                     key={pelicula.id}
-                                    className="flex-shrink-0 w-[170px] max-w-[190px] max-h-[270px] relative group"
-                                >
+                                    className="flex-shrink-0 w-[200px] max-w-[200px] max-h-[300px] relative group overflow-hidden transform hover:scale-105 transition-transform duration-300"
+                                    >
                                     <img
                                         src={pelicula.imagen || 'https://via.placeholder.com/170x250'}
                                         alt={pelicula.titulo}
-                                        className="w-full h-full object-cover rounded-lg"
-                                    />
+                                        className="w-full h-full object-cover rounded-lg shadow-lg"
+                                        />
                                     {/* Overlay con detalles de la película */}
-                                    <div className="absolute inset-0 bg-[#004ba2] bg-opacity-90 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center p-2">
-                                        <h2 className="text-sm font-bold mb-1">{pelicula.titulo}</h2>
+                                    <div className="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center p-4">
+                                    <h2 className="text-sm font-bold mb-1">{pelicula.titulo}</h2>
                                         <p className="text-xs">{pelicula.descripcion}</p>
                                         <p className="text-xs">Género: {pelicula.genero}</p>
                                         <p className="text-xs">Año: {pelicula.año}</p>

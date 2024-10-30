@@ -12,12 +12,12 @@ const ActualizarCatalogo = () => {
   
   // Lista de películas a mostrar en el catálogo
   const peliculas = [
-    { id: 1, titulo: 'Peli 1', descripcion: 'Descripción de Peli 1', imagen: 'https://image.tmdb.org/t/p/w300/c2wfIKUPcQY0tiyiOmY7ItHtNO9.jpg', genero: 'Acción', año: 2021 },
-    { id: 2, titulo: 'Peli 2', descripcion: 'Descripción de Peli 2', imagen: 'https://cuevana.pro/resize/200/storage/87518/3JXUycj4WU32Sfsaccfo1CdJ0skUKLFrhTzBodCx.jpg', genero: 'Drama', año: 2020 },
-    { id: 3, titulo: 'Peli 3', descripcion: 'Descripción de Peli 3', imagen: 'https://cuevana.pro/resize/200/storage/87996/k1dPc7WcPRfPv31g0JjkNwHom7MwXIwSTJKLnfgf.jpg', genero: 'Comedia', año: 2019 },
-    { id: 4, titulo: 'Peli 4', descripcion: 'Descripción de Peli 4', imagen: 'https://cuevana.pro/resize/200/storage/87996/k1dPc7WcPRfPv31g0JjkNwHom7MwXIwSTJKLnfgf.jpg', genero: 'Terror', año: 2018 },
-    { id: 5, titulo: 'Peli 5', descripcion: 'Descripción de Peli 5', imagen: 'https://cuevana.pro/resize/200/storage/87996/k1dPc7WcPRfPv31g0JjkNwHom7MwXIwSTJKLnfgf.jpg', genero: 'Aventura', año: 2021 },
-    { id: 6, titulo: 'Peli 6', descripcion: 'Descripción de Peli 6', imagen: 'https://cuevana.pro/resize/200/storage/87162/26g0sdV8kOiBSyinZ9a1Xb8Sdia6LZEXggcdTw7W.jpg', genero: 'Ciencia Ficción', año: 2020 },
+    { id: 1, titulo: 'Pelicula 1', descripcion: 'Descripción de Peli 1', imagen: 'https://image.tmdb.org/t/p/w300/c2wfIKUPcQY0tiyiOmY7ItHtNO9.jpg', genero: 'Acción', año: 2021 },
+    { id: 2, titulo: 'Pelicula 2', descripcion: 'Descripción de Peli 2', imagen: 'https://cuevana.pro/resize/200/storage/87518/3JXUycj4WU32Sfsaccfo1CdJ0skUKLFrhTzBodCx.jpg', genero: 'Drama', año: 2020 },
+    { id: 3, titulo: 'Pelicula 3', descripcion: 'Descripción de Peli 3', imagen: 'https://cuevana.pro/resize/200/storage/87996/k1dPc7WcPRfPv31g0JjkNwHom7MwXIwSTJKLnfgf.jpg', genero: 'Comedia', año: 2019 },
+    { id: 4, titulo: 'Pelicula 4', descripcion: 'Descripción de Peli 4', imagen: 'https://cuevana.pro/resize/200/storage/87996/k1dPc7WcPRfPv31g0JjkNwHom7MwXIwSTJKLnfgf.jpg', genero: 'Terror', año: 2018 },
+    { id: 5, titulo: 'Pelicula 5', descripcion: 'Descripción de Peli 5', imagen: 'https://cuevana.pro/resize/200/storage/87996/k1dPc7WcPRfPv31g0JjkNwHom7MwXIwSTJKLnfgf.jpg', genero: 'Aventura', año: 2021 },
+    { id: 6, titulo: 'Pelicula 6', descripcion: 'Descripción de Peli 6', imagen: 'https://cuevana.pro/resize/200/storage/87162/26g0sdV8kOiBSyinZ9a1Xb8Sdia6LZEXggcdTw7W.jpg', genero: 'Ciencia Ficción', año: 2020 },
   ];
 
   // Función para manejar el clic en el botón "Modificar"

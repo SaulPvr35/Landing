@@ -5,7 +5,7 @@ const Barra = () => {
     return (
         <div className=" from-[#126ff0] to-[#0d3874] p-4 w-full flex flex-col items-center rounded-lg shadow-lg">
             <h2 className="text-white text-2xl mb-6 font-bold animate-bounce">Recomendaciones</h2>
-            <ul className="flex justify-between w-full max-w-screen-xl space-x-4 overflow-x-auto">
+            <ul className="flex justify-between w-full max-w-screen-xl space-x-4 ">
                 <li className="flex-grow flex justify-center">
                     <a href="/" className="text-white hover:bg-[#7e8288] block p-4 rounded-lg text-center transform transition duration-500 hover:scale-105 hover:shadow-2xl">
                         <div className="overflow-hidden rounded-lg">

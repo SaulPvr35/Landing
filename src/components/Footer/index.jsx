@@ -12,12 +12,12 @@ const Footer = () => {
           </div>
 
           <div className="flex space-x-4">
-            <a href="#privacy" className="tp text-[#ffffff] flex items-center">
+            {/* <a href="#privacy" className="tp text-[#ffffff] flex items-center">
               <i className="fas fa-shield-alt mr-1"></i> Política de privacidad
             </a>
             <a href="#terms" className="text-[#ffffff] tp flex items-center">
               <i className="fas fa-file-contract mr-1"></i> Términos de servicio
-            </a>
+            </a> */}
             
             {/* Cambia este enlace para que use Link de react-router-dom */}
             <Link to="/contacto" className="tp text-[#ffffff] flex items-center">
