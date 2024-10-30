@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faWrench, faEnvelope, faSearch, faBullseye, faUserCircle } from '@fortawesome/free-solid-svg-icons'; 
+import { faHome, faSearch, faBullseye, faUserCircle } from '@fortawesome/free-solid-svg-icons'; 
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
@@ -54,9 +54,9 @@ const Navbar = () => {
                 {menuOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-[#002f6c] text-white rounded-md shadow-lg z-20">
                    
-                    <Link to="/Actualizar" className="block px-4 py-2 text-gray-400 hover:text-white hover:bg-blue-700 transition duration-300 ease-in-out flex items-center space-x-2">Actualizar Catálogo</Link>
-                    <Link to="/Gestionar" className="block px-4 py-2 text-gray-400 hover:text-white hover:bg-blue-700 transition duration-300 ease-in-out flex items-center space-x-2">Gestionar Empleados</Link>
-                    <Link to="/contacto" className="block px-4 py-2 text-gray-400 hover:text-white hover:bg-blue-700 transition duration-300 ease-in-out flex items-center space-x-2">Soporte</Link>
+                    <Link to="/Actualizar" className=" px-4 py-2 text-gray-400 hover:text-white hover:bg-blue-700 transition duration-300 ease-in-out flex items-center space-x-2">Actualizar Catálogo</Link>
+                    <Link to="/Gestionar" className=" px-4 py-2 text-gray-400 hover:text-white hover:bg-blue-700 transition duration-300 ease-in-out flex items-center space-x-2">Gestionar Empleados</Link>
+                    <Link to="/contacto" className=" px-4 py-2 text-gray-400 hover:text-white hover:bg-blue-700 transition duration-300 ease-in-out flex items-center space-x-2">Soporte</Link>
                     {/* <Link to="/" className="block px-4 py-2 text-gray-400 hover:text-white hover:bg-red-600 transition duration-300 ease-in-out flex items-center space-x-2">cerrar sesion</Link> */}
                    
                   </div>
