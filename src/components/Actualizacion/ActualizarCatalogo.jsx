@@ -8,7 +8,6 @@ const ActualizarCatalogo = () => {
   const [modalEliminarVisible, setModalEliminarVisible] = useState(false);
   // Estado para almacenar la película seleccionada para modificar o eliminar
   const [peliculaSeleccionada, setPeliculaSeleccionada] = useState(null);
-  const [modalAgregarVisible, setModalAgregarVisible] = useState(false);
   
   // Lista de películas a mostrar en el catálogo
   const peliculas = [

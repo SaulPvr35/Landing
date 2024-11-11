@@ -1,0 +1,101 @@
+import React, { useState } from 'react';
+
+// Componente principal para actualizar el catálogo de películas
+const ActualizarCatalogo = () => {
+  // Estado para controlar la visibilidad del modal de edición
+  const [modalVisible, setModalVisible] = useState(false);
+  // Estado para controlar la visibilidad del modal de eliminación
+  const [modalEliminarVisible, setModalEliminarVisible] = useState(false);
+  // Estado para almacenar la película seleccionada para modificar o eliminar
+  const [peliculaSeleccionada, setPeliculaSeleccionada] = useState(null);
+  // Estado para almacenar las películas obtenidas de la base de datos
+  const [peliculas, setPeliculas] = useState([
+    // Las películas se llenarán con datos de la DB
+  ]);
+
+
+  // Función para manejar la confirmación de eliminación
+  const handleConfirmarEliminar = async () => {
+    // Lógica para eliminar la película seleccionada
+    if (peliculaSeleccionada) {
+      await fetch(`http://localhost:5000/api/peliculas/${peliculaSeleccionada.id}`, {
+        method: 'DELETE',
+      });
+      // Actualizar el estado después de eliminar
+      setPeliculas(peliculas.filter((pelicula) => pelicula.id !== peliculaSeleccionada.id));
+      setModalEliminarVisible(false); // Ocultar el modal de eliminación
+      setPeliculaSeleccionada(null); // Limpiar la película seleccionada
+    }
+  };
+
+  // Función para manejar la modificación de la película
+  const handleGuardarModificacion = async () => {
+    if (peliculaSeleccionada) {
+      const updatedPelicula = {
+        ...peliculaSeleccionada,
+        // Aquí puedes obtener los valores del formulario de edición
+      };
+
+      // Enviar la actualización al servidor
+      await fetch(`http://localhost:5000/api/peliculas/${peliculaSeleccionada.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedPelicula),
+      });
+
+      // Actualizar el estado con la película modificada
+      setPeliculas(peliculas.map((pelicula) =>
+        pelicula.id === updatedPelicula.id ? updatedPelicula : pelicula
+      ));
+
+      setModalVisible(false); // Cerrar el modal de modificación
+      setPeliculaSeleccionada(null); // Limpiar la película seleccionada
+    }
+  };
+
+  // Función para agregar una nueva película
+  const handleAgregarPelicula = async (newPelicula) => {
+    const response = await fetch('http://localhost:5000/api/peliculas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newPelicula),
+    });
+
+    const addedPelicula = await response.json();
+    setPeliculas([...peliculas, addedPelicula]); // Agregar la nueva película al estado
+  };
+
+  return (
+    <div className="topcatalogo via-[#0a1c35] to-[#004ca2c4] min-h-screen p-4 flex flex-col">
+      <h1 className="text-white font-bold text-3xl mb-9 text-center">Catálogo de Películas</h1>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {peliculas.map((pelicula) => (
+          <div key={pelicula.id} className="bg-[#002f6c] p-4 rounded-md shadow-md text-white">
+            <img src={pelicula.imagen} alt={pelicula.titulo} className="w-full h-48 object-cover rounded mb-4" />
+            <h2 className="text-xl font-bold">{pelicula.titulo}</h2>
+            <p className="text-sm mt-2">{pelicula.descripcion}</p>
+            <p className="text-sm">Género: {pelicula.genero}</p>
+            <p className="text-sm">Año: {pelicula.año}</p>
+            <div className="flex mt-4 space-x-4">
+              <button
+                onClick={() => handleModificarClick(pelicula)}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded"
+              >
+                Modificar
+              </button>
+              <button
+                onClick={() => handleEliminarClick(pelicula)}
+                className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded"
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+      //Agregar MODALES
+  );
+};
+
+export default ActualizarCatalogo;

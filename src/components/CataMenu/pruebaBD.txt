@@ -1,0 +1,69 @@
+import React, { useEffect, useState } from 'react';
+import Barra from '../BarraLateral';
+import Carrusel from '../Carrusel';
+
+const Catalogo = () => {
+    const [peliculas, setPeliculas] = useState([]);
+
+    useEffect(() => {
+        const fetchPeliculas = async () => {
+            try {
+                const response = await fetch('http://localhost:3001/peliculas');
+                const data = await response.json();
+                setPeliculas(data);
+            } catch (error) {
+                console.error('Error al obtener las películas:', error);
+            }
+        };
+
+        fetchPeliculas();
+    }, []);
+
+    return (
+        <div className="min-h-screen text-white p-4 flex flex-col">
+            <Carrusel />
+            <br />
+            <Barra />
+            <br />
+            <h1 className="text-white text-4xl font-bold text-center mb-6">Películas</h1>
+            <div className="space-y-8">
+                {/* Renderizado de varias secciones (como Netflix) */}
+                {['Acción', 'Comedia', 'Drama'].map((categoria) => (
+                    <div key={categoria} className="space-y-4">
+                        <h2 className="text-white text-2xl mb-4 font-semibold">{categoria}</h2>
+                        <div className="flex space-x-6 overflow-x-auto scrollbar-hide p-2">
+                            {peliculas
+                                .filter(pelicula => pelicula.genero === categoria)
+                                .map((pelicula) => (
+                                    <div
+                                        key={pelicula.id}
+                                        className="flex-shrink-0 w-[200px] max-w-[200px] max-h-[300px] relative group overflow-hidden transform hover:scale-105 transition-transform duration-300"
+                                    >
+                                        <img
+                                            src={pelicula.imagen || 'https://via.placeholder.com/170x250'}
+                                            alt={pelicula.titulo}
+                                            className="w-full h-full object-cover rounded-lg shadow-lg"
+                                        />
+                                        <div className="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center items-center p-4">
+                                            <h2 className="text-sm font-bold mb-1">{pelicula.titulo}</h2>
+                                            <p className="text-xs">{pelicula.descripcion}</p>
+                                            <p className="text-xs">Género: {pelicula.genero}</p>
+                                            <p className="text-xs">Año: {pelicula.año}</p>
+                                            <button className="mt-1 bg-[#004ba2] text-white text-xs px-2 py-1 rounded hover:bg-[#4d8dee] transition duration-300">
+                                                Ver Detalles
+                                            </button>
+                                        </div>
+                                        <h2 className="absolute bottom-0 left-0 right-0 text-center text-white text-xs font-bold mb-1">
+                                            {pelicula.titulo}
+                                        </h2>
+                                    </div>
+                                ))}
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export default Catalogo;
