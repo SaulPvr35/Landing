@@ -61,11 +61,24 @@ const ActualizarCatalogo = () => {
     setPeliculaSeleccionada(null);
   };
 
-  const manejarConfirmarEliminar = () => {
-    console.log(`Eliminando película: ${peliculaSeleccionada?.titulo}`);
-    setModalEliminarVisible(false);
-    setPeliculaSeleccionada(null);
+  const manejarConfirmarEliminar = async () => {
+    try {
+      const respuesta =await axios.delete(`http://localhost:3001/peliculas/${peliculaSeleccionada.id}`);
+  
+      // Confirmar en consola la eliminación de la película
+      console.log(`Película eliminada: ${peliculaSeleccionada.titulo}`);
+        setModalEliminarVisible(false);
+        setPeliculaSeleccionada(null);
+  
+      console.log('Película actualizada:', respuesta.data);
+
+      // Recargar la lista de películas
+      obtenerPeliculas();
+    } catch (error) {
+      console.error('Error al eliminar la película:', error);
+    }
   };
+  
 
   const manejarClickGuardar = async () => {
     try {
@@ -94,45 +107,53 @@ const ActualizarCatalogo = () => {
       <h1 className="text-white font-bold text-3xl mb-9 text-center">Catálogo de Películas (conectada a la bd)</h1>
       {/* Listado de las peliculas (TITULOS)  */}
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-[#002f6c] text-white shadow-md rounded-lg">
-          <thead>
-            <tr>
-              <th className="py-3 px-4 text-left">Título</th>
-              <th className="py-3 px-4 text-left">Descripción</th>
-              <th className="py-3 px-4 text-left">Género</th>
-              <th className="py-3 px-4 text-left">Año</th>
-              <th className="py-3 px-4 text-left">Imagen</th>
-              <th className="py-3 px-4 text-left">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {peliculas.map((pelicula) => (
-              <tr key={pelicula.id} className="border-b border-gray-700">
-                <td className="py-3 px-4">{pelicula.titulo}</td>
-                <td className="py-3 px-4">{pelicula.descripcion}</td>
-                <td className="py-3 px-4">{pelicula.genero}</td>
-                <td className="py-3 px-4">{pelicula.año}</td>
-                <td className="py-3 px-4">
-                  <img src={pelicula.imagen} alt={pelicula.titulo} className="w-16 h-16 object-cover rounded" />
-                </td>
-                <td className="py-3 px-4">
-                  <button 
-                    onClick={() => manejarClickModificar(pelicula)} 
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded mr-2"
-                  >
-                    Modificar
-                  </button>
-                  <button 
-                    onClick={() => manejarClickEliminar(pelicula)} 
-                    className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded"
-                  >
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <table className="min-w-full bg-[#002f6c] text-white shadow-lg rounded-lg overflow-hidden">
+  <thead>
+    <tr className="bg-blue-900">
+      <th className="py-4 px-6 text-left text-sm font-semibold tracking-wider">Título</th>
+      <th className="py-4 px-6 text-left text-sm font-semibold tracking-wider">Descripción</th>
+      <th className="py-4 px-6 text-left text-sm font-semibold tracking-wider">Género</th>
+      <th className="py-4 px-6 text-left text-sm font-semibold tracking-wider">Año</th>
+      <th className="py-4 px-6 text-left text-sm font-semibold tracking-wider">Imagen</th>
+      <th className="py-4 px-6 text-left text-sm font-semibold tracking-wider">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {peliculas.map((pelicula) => (
+      <tr
+        key={pelicula.id}
+        className="border-b border-gray-700 transition-transform duration-300 ease-in-out  hover:bg-[#00509d]"
+      >
+        <td className="py-4 px-6 text-sm font-medium">{pelicula.titulo}</td>
+        <td className="py-4 px-6 text-sm">{pelicula.descripcion}</td>
+        <td className="py-4 px-6 text-sm">{pelicula.genero}</td>
+        <td className="py-4 px-6 text-sm">{pelicula.año}</td>
+        <td className="py-4 px-6">
+          <img
+            src={pelicula.imagen}
+            alt={pelicula.titulo}
+            className="w-16 h-16 object-cover rounded-md shadow-md transition-opacity duration-300 hover:opacity-80"
+          />
+        </td>
+        <td className="py-4 px-6 flex items-center gap-2">
+          <button
+            onClick={() => manejarClickModificar(pelicula)}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow transition-transform duration-200 hover:scale-110"
+          >
+            Modificar
+          </button>
+          <button
+            onClick={() => manejarClickEliminar(pelicula)}
+            className="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded shadow transition-transform duration-200 hover:scale-110"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+      </table>
+
       </div>
 
       {/* Modal para editar */}
@@ -225,8 +246,8 @@ const ActualizarCatalogo = () => {
               </button>
               <button 
                 onClick={manejarConfirmarEliminar} 
-                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-              >
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+                  {/* Hcaer pruebas con el click de eliminar  */}
                 Eliminar
               </button>
             </div>
