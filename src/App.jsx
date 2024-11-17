@@ -10,7 +10,7 @@ import MisionVision from './components/Nosotros/MisionVision';
 import Contacto from './components/Footer/contacto'; // Importa Contacto
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useEffect } from 'react';
-import GestionarEmpleados from './components/Actualizacion/GestionarEmpleados';
+import ActualizarPesonal from './components/Empleados/ActualizarPersonal';
 
 function App() {
   useEffect(() => {
@@ -33,7 +33,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Catalogo />} />
               <Route path="/actualizar" element={<ActualizarCatalogo />} />
-              <Route path="/gestionar" element={<GestionarEmpleados />} />
+              <Route path="/gestionar" element={<ActualizarPesonal/>} />
               <Route path="/busqueda" element={<Busqueda />} />
               <Route path="/MisionVision" element={<MisionVision />} />
               <Route path="/contacto" element={<Contacto />} /> {/* Ruta para Contacto */}
