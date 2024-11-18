@@ -1,19 +1,23 @@
-import React, { useState } from 'react'; // Importación única de React y useState
-//  EL TITULO se usara para el filtro de busquedas 
-const peliculasIniciales = [
-  { id: 1, titulo: 'Stars', imagen: 'https://link_a_imagen_1.jpg' },
-  { id: 2, titulo: 'Stars', imagen: 'https://link_a_imagen_2.jpg' },
-  { id: 3, titulo: 'La g', imagen: 'https://link_a_imagen_3.jpg' },
-  { id: 4, titulo: 'Stars', imagen: 'https://link_a_imagen_4.jpg' },
-  { id: 5, titulo: 'Stars', imagen: 'https://link_a_imagen_5.jpg' },
-  { id: 6, titulo: 'Han', imagen: 'https://link_a_imagen_6.jpg' },
-  { id: 7, titulo: 'El', imagen: 'https://link_a_imagen_7.jpg' },
-];
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const Busqueda = () => {
-  const [busqueda, setBusqueda] = useState(''); // Estado para controlar el término de búsqueda
-  const peliculas = peliculasIniciales;
-  // const [peliculas, setPeliculas] = useState(peliculasIniciales);
+  const [busqueda, setBusqueda] = useState(''); 
+  const [peliculas, setPeliculas] = useState([]); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/peliculas') 
+      .then((response) => {
+        setPeliculas(response.data);
+        setLoading(false); 
+      })
+      .catch((err) => {
+        setError('Error al cargar las películas');
+        setLoading(false);
+      });
+  }, []);
 
   // Función para manejar el cambio en el input de búsqueda
   const manejarCambioBusqueda = (e) => {
@@ -25,6 +29,7 @@ const Busqueda = () => {
     pelicula.titulo.toLowerCase().includes(busqueda.toLowerCase())
   );
 
+
   return (
     <div className="min-h-screen top  p-8">
       {/* Input de búsqueda */}
@@ -34,12 +39,18 @@ const Busqueda = () => {
           <input
             type="text"
             value={busqueda}
-            onChange={manejarCambioBusqueda}
+            onChange={manejarCambioBusqueda} // Cuando el usuario escribe, actualiza el término de búsqueda
             placeholder="Buscar película..."
             className="px-4 py-2 rounded-lg w-1/2 bg-[#1c3a63] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ffffff] transition"
           />
         </div>
       </div>
+
+
+      {/* Mensaje de carga o error */}
+      {loading && <p className="text-white text-center">Cargando películas...</p>}
+      {error && <p className="text-red-500 text-center">{error}</p>}
+
 
       {/* Mostrar el título de búsqueda */}
       <h2 className="text-white text-2xl mb-4 text-center">
@@ -56,7 +67,7 @@ const Busqueda = () => {
             >
               {/* Imagen de la película */}
               <img
-                src={pelicula.imagen}
+                src={pelicula.imagen || '/images/default-image.jpg'} // Imagen predeterminada si no hay imagen
                 alt={pelicula.titulo}
                 className="w-full h-60 object-cover mb-4 rounded-md"
               />
@@ -65,7 +76,7 @@ const Busqueda = () => {
             </div>
           ))
         ) : (
-          <p className="text-white text-center col-span-full">No se encontraron resultados.</p>
+          <p className="text-white text-center col-span-full">No se encontraron.</p>
         )}
       </div>
     </div>
