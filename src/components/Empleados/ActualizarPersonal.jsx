@@ -2,23 +2,24 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const ActualizarPersonal = () => {
+  const [empleados, setEmpleados] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalEliminarVisible, setModalEliminarVisible] = useState(false);
+  const [modalCrearVisible, setModalCrearVisible] = useState(false);  // Nuevo estado para el modal de crear
   const [empleadoSeleccionado, setEmpleadoSeleccionado] = useState(null);
-  const [empleados, setEmpleados] = useState([]);
 
   const [nombre, setNombre] = useState('');
   const [puesto, setPuesto] = useState('');
   const [edad, setEdad] = useState('');
   const [imagen, setImagen] = useState('');
 
-  // Función para obtener los empleados desde el servidor
+  // Obtener empleados desde el backend
   const obtenerEmpleados = async () => {
     try {
-      const respuesta = await axios.get('http://localhost:3001/personal');
+      const respuesta = await axios.get('http://localhost:3001/personal'); // Ajustar a la ruta de tu backend
       setEmpleados(respuesta.data);
     } catch (error) {
-      console.error('Error al obtener los empleados:', error);
+      console.error('Error al obtener empleados:', error);
     }
   };
 
@@ -26,52 +27,17 @@ const ActualizarPersonal = () => {
     obtenerEmpleados();
   }, []);
 
-  // Actualiza los campos del formulario cuando se selecciona un empleado
-  useEffect(() => {
-    if (empleadoSeleccionado) {
-      setNombre(empleadoSeleccionado.nombre);
-      setPuesto(empleadoSeleccionado.puesto);
-      setEdad(empleadoSeleccionado.edad);
-      setImagen(empleadoSeleccionado.imagen);
-    }
-  }, [empleadoSeleccionado]);
-
+  // Seleccionar empleado para editar
   const manejarClickModificar = (empleado) => {
     setEmpleadoSeleccionado(empleado);
+    setNombre(empleado.nombre);
+    setPuesto(empleado.puesto);
+    setEdad(empleado.edad);
+    setImagen(empleado.imagen);
     setModalVisible(true);
   };
 
-  const manejarClickEliminar = (empleado) => {
-    setEmpleadoSeleccionado(empleado);
-    setModalEliminarVisible(true);
-  };
-
-  const manejarClickCancelar = () => {
-    setModalVisible(false);
-    setEmpleadoSeleccionado(null);
-  };
-
-  const manejarCancelarEliminar = () => {
-    setModalEliminarVisible(false);
-    setEmpleadoSeleccionado(null);
-  };
-
-  const manejarConfirmarEliminar = async () => {
-    try {
-      const respuesta = await axios.delete(`http://localhost:3001/personal/${empleadoSeleccionado.id}`);
-  
-      // Confirmar en consola la eliminación del empleado
-      console.log(`Empleado eliminado: ${empleadoSeleccionado.nombre}`);
-      setModalEliminarVisible(false);
-      setEmpleadoSeleccionado(null);
-  
-      // Recargar la lista de empleados
-      obtenerEmpleados();
-    } catch (error) {
-      console.error('Error al eliminar el empleado:', error);
-    }
-  };
-
+  // Guardar cambios del empleado
   const manejarClickGuardar = async () => {
     try {
       const datosActualizados = {
@@ -80,61 +46,103 @@ const ActualizarPersonal = () => {
         edad,
         imagen,
       };
-
-      // Enviamos la solicitud PUT al servidor
-      const respuesta = await axios.put(`http://localhost:3001/personal/${empleadoSeleccionado.id}`, datosActualizados);
-
-      // Si la actualización fue exitosa, mostramos un mensaje y recargamos los empleados
-      console.log('Empleado actualizado:', respuesta.data);
+      await axios.put(`http://localhost:3001/personal/${empleadoSeleccionado.id}`, datosActualizados);
+      console.log('Empleado actualizado:', datosActualizados);
       setModalVisible(false);
-      obtenerEmpleados(); // Volver a cargar los empleados actualizados
+      obtenerEmpleados(); // Recargar lista actualizada
     } catch (error) {
-      console.error('Error al guardar los cambios:', error);
+      console.error('Error al guardar cambios:', error);
+    }
+  };
+
+  // Eliminar empleado
+  const manejarClickEliminar = (empleado) => {
+    setEmpleadoSeleccionado(empleado);
+    setModalEliminarVisible(true);
+  };
+
+  const manejarConfirmarEliminar = async () => {
+    try {
+      await axios.delete(`http://localhost:3001/personal/${empleadoSeleccionado.id}`);
+      console.log(`Empleado eliminado: ${empleadoSeleccionado.nombre}`);
+      setModalEliminarVisible(false);
+      obtenerEmpleados(); // Recargar lista tras eliminar
+    } catch (error) {
+      console.error('Error al eliminar empleado:', error);
+    }
+  };
+
+  const manejarCancelarEliminar = () => {
+    setModalEliminarVisible(false);
+    setEmpleadoSeleccionado(null);
+  };
+
+  // Crear nuevo empleado
+  const manejarClickCrear = () => {
+    setNombre('');
+    setPuesto('');
+    setEdad('');
+    setImagen('');
+    setModalCrearVisible(true);
+  };
+
+  const manejarGuardarNuevoEmpleado = async () => {
+    try {
+      const nuevoEmpleado = { nombre, puesto, edad, imagen };
+      await axios.post('http://localhost:3001/personal', nuevoEmpleado);
+      console.log('Empleado creado:', nuevoEmpleado);
+      setModalCrearVisible(false);
+      obtenerEmpleados(); // Recargar lista tras crear el nuevo empleado
+    } catch (error) {
+      console.error('Error al crear empleado:', error);
     }
   };
 
   return (
-    <div className="topcatalogo via-[#0a1c35] to-[#004ca2c4] min-h-screen p-4 flex flex-col">
-      <h1 className="text-white font-bold text-3xl mb-9 text-center">Catálogo de Empleados (conectada a la bd)</h1>
-      {/* Listado de empleados (Nombres) */}
+    <div className="min-h-screen bg-gradient-to-br from-blue-700 to-blue-900 p-6 text-white">
+      <h1 className="text-3xl font-bold text-center mb-8">Gestión de Empleados</h1>
+
+      {/* Botón para agregar nuevo empleado */}
+      <div className="text-right mb-4">
+        <button
+          onClick={manejarClickCrear}
+          className="bg-green-500 hover:bg-green-600 px-4 py-2 rounded"
+        >
+          Agregar Empleado
+        </button>
+      </div>
+
+      {/* Tabla de empleados */}
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-[#002f6c] text-white shadow-lg rounded-lg overflow-hidden">
+        <table className="table-auto w-full bg-blue-800 rounded-lg">
           <thead>
             <tr className="bg-blue-900">
-              <th className="py-4 px-6 text-left text-sm font-semibold tracking-wider">Nombre</th>
-              <th className="py-4 px-6 text-left text-sm font-semibold tracking-wider">Puesto</th>
-              <th className="py-4 px-6 text-left text-sm font-semibold tracking-wider">Edad</th>
-              <th className="py-4 px-6 text-left text-sm font-semibold tracking-wider">Imagen</th>
-              <th className="py-4 px-6 text-left text-sm font-semibold tracking-wider">Acciones</th>
+              <th className="py-4 px-6">Nombre</th>
+              <th className="py-4 px-6">Puesto</th>
+              <th className="py-4 px-6">Edad</th>
+              <th className="py-4 px-6">Imagen</th>
+              <th className="py-4 px-6">Acciones</th>
             </tr>
-            
           </thead>
           <tbody>
             {empleados.map((empleado) => (
-              <tr
-                key={empleado.id}
-                className="border-b border-gray-700 transition-transform duration-300 ease-in-out  hover:bg-[#00509d]"
-              >
-                <td className="py-4 px-6 text-sm font-medium">{empleado.nombre}</td>
-                <td className="py-4 px-6 text-sm">{empleado.puesto}</td>
-                <td className="py-4 px-6 text-sm">{empleado.edad}</td>
+              <tr key={empleado.id} className="border-b border-gray-700 hover:bg-blue-700">
+                <td className="py-4 px-6">{empleado.nombre}</td>
+                <td className="py-4 px-6">{empleado.puesto}</td>
+                <td className="py-4 px-6">{empleado.edad}</td>
                 <td className="py-4 px-6">
-                  <img
-                    src={empleado.imagen}
-                    alt={empleado.nombre}
-                    className="w-16 h-16 object-cover rounded-md shadow-md transition-opacity duration-300 hover:opacity-80"
-                  />
+                  <img src={empleado.imagen} alt={empleado.nombre} className="w-16 h-16 object-cover rounded" />
                 </td>
-                <td className="py-4 px-6 flex items-center gap-2">
+                <td className="py-4 px-6 flex gap-2">
                   <button
                     onClick={() => manejarClickModificar(empleado)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded shadow transition-transform duration-200 hover:scale-110"
+                    className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded"
                   >
                     Modificar
                   </button>
                   <button
                     onClick={() => manejarClickEliminar(empleado)}
-                    className="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded shadow transition-transform duration-200 hover:scale-110"
+                    className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded"
                   >
                     Eliminar
                   </button>
@@ -145,63 +153,108 @@ const ActualizarPersonal = () => {
         </table>
       </div>
 
-      {/* Modal para editar */}
-      {modalVisible && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-          <div className="bg-[#003a70] rounded-lg p-6 w-11/12 md:w-1/2 lg:w-1/3 shadow-lg">
-            <h2 className="text-2xl font-bold text-white text-center mb-4">Editar Empleado</h2>
+      {/* Modal de crear nuevo empleado */}
+      {modalCrearVisible && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-blue-800 p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+            <h2 className="text-xl font-bold mb-4">Crear Nuevo Empleado</h2>
             <form className="space-y-4">
-              <div>
-                <label className="block text-gray-200 font-semibold">Nombre</label>
-                <input 
-                  type="text" 
-                  className="w-full p-2 border rounded bg-[#004ba2] text-white" 
-                  placeholder="Ingrese el nombre del empleado" 
-                  value={nombre}
-                  onChange={(e) => setNombre(e.target.value)}
-                />
-              </div>
-              <div>
-                <label className="block text-gray-200 font-semibold">Puesto</label>
-                <input 
-                  type="text" 
-                  className="w-full p-2 border rounded bg-[#004ba2] text-white" 
-                  placeholder="Ingrese el puesto" 
-                  value={puesto} 
-                  onChange={(e) => setPuesto(e.target.value)}
-                />
-              </div>
-              <div>
-                <label className="block text-gray-200 font-semibold">Edad</label>
-                <input 
-                  type="number" 
-                  className="w-full p-2 border rounded bg-[#004ba2] text-white" 
-                  placeholder="Ingrese la edad" 
-                  value={edad} 
-                  onChange={(e) => setEdad(e.target.value)}
-                />
-              </div>
-              <div>
-                <label className="block text-gray-200 font-semibold">Imagen (URL)</label>
-                <input 
-                  type="text" 
-                  className="w-full p-2 border rounded bg-[#004ba2] text-white" 
-                  placeholder="URL de la imagen" 
-                  value={imagen} 
-                  onChange={(e) => setImagen(e.target.value)}
-                />
-              </div>
-              <div className="flex justify-end space-x-2">
-                <button 
-                  type="button" 
-                  onClick={manejarClickCancelar} 
-                  className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">
+              <input
+                type="text"
+                placeholder="Nombre"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+                className="w-full px-4 py-2 rounded bg-blue-700 text-white"
+              />
+              <input
+                type="text"
+                placeholder="Puesto"
+                value={puesto}
+                onChange={(e) => setPuesto(e.target.value)}
+                className="w-full px-4 py-2 rounded bg-blue-700 text-white"
+              />
+              <input
+                type="number"
+                placeholder="Edad"
+                value={edad}
+                onChange={(e) => setEdad(e.target.value)}
+                className="w-full px-4 py-2 rounded bg-blue-700 text-white"
+              />
+              <input
+                type="text"
+                placeholder="Imagen (URL)"
+                value={imagen}
+                onChange={(e) => setImagen(e.target.value)}
+                className="w-full px-4 py-2 rounded bg-blue-700 text-white"
+              />
+              <div className="flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setModalCrearVisible(false)}
+                  className="px-4 py-2 bg-gray-500 rounded"
+                >
                   Cancelar
                 </button>
-                <button 
-                  type="button" 
-                  onClick={manejarClickGuardar} 
-                  className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                <button
+                  type="button"
+                  onClick={manejarGuardarNuevoEmpleado}
+                  className="px-4 py-2 bg-green-500 rounded"
+                >
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de editar */}
+      {modalVisible && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-blue-800 p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+            <h2 className="text-xl font-bold mb-4">Editar Empleado</h2>
+            <form className="space-y-4">
+              <input
+                type="text"
+                placeholder="Nombre"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+                className="w-full px-4 py-2 rounded bg-blue-700 text-white"
+              />
+              <input
+                type="text"
+                placeholder="Puesto"
+                value={puesto}
+                onChange={(e) => setPuesto(e.target.value)}
+                className="w-full px-4 py-2 rounded bg-blue-700 text-white"
+              />
+              <input
+                type="number"
+                placeholder="Edad"
+                value={edad}
+                onChange={(e) => setEdad(e.target.value)}
+                className="w-full px-4 py-2 rounded bg-blue-700 text-white"
+              />
+              <input
+                type="text"
+                placeholder="Imagen (URL)"
+                value={imagen}
+                onChange={(e) => setImagen(e.target.value)}
+                className="w-full px-4 py-2 rounded bg-blue-700 text-white"
+              />
+              <div className="flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setModalVisible(false)}
+                  className="px-4 py-2 bg-gray-500 rounded"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  onClick={manejarClickGuardar}
+                  className="px-4 py-2 bg-blue-500 rounded"
+                >
                   Guardar
                 </button>
               </div>
@@ -212,21 +265,22 @@ const ActualizarPersonal = () => {
 
       {/* Modal de eliminar */}
       {modalEliminarVisible && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-          <div className="bg-[#003a70] rounded-lg p-6 w-11/12 md:w-1/2 lg:w-1/3 shadow-lg">
-            <h2 className="text-2xl font-bold text-white text-center mb-4">Confirmar Eliminación</h2>
-            <p className="text-white text-center mb-4">¿Estás seguro de eliminar este empleado?</p>
-            <div className="flex justify-end space-x-2">
-              <button 
-                type="button" 
-                onClick={manejarCancelarEliminar} 
-                className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-blue-800 p-6 rounded-lg shadow-lg w-11/12 max-w-md">
+            <h2 className="text-xl font-bold mb-4">¿Estás seguro de eliminar este empleado?</h2>
+            <div className="flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={manejarCancelarEliminar}
+                className="px-4 py-2 bg-gray-500 rounded"
+              >
                 Cancelar
               </button>
-              <button 
-                type="button" 
-                onClick={manejarConfirmarEliminar} 
-                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+              <button
+                type="button"
+                onClick={manejarConfirmarEliminar}
+                className="px-4 py-2 bg-red-500 rounded"
+              >
                 Eliminar
               </button>
             </div>
@@ -238,5 +292,3 @@ const ActualizarPersonal = () => {
 };
 
 export default ActualizarPersonal;
-
-
